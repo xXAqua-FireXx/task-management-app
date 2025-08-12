@@ -1,6 +1,8 @@
 <script>
     let tasks = $state([]);
     let newTask = $state("");
+    let f_done = $state(false)
+    let f_pending = $state(false)
 </script>
 
 <main class="flex flex-col gap-10 items-center p-5">
@@ -24,24 +26,41 @@
         >
     </div>
     {#if tasks.length}
-        <div class="filter">
-        <label for="completed">Show only completed tasks</label>
-        <input type="checkbox" name="completed" id="completed">
-        <label for="incomplete">Show only incomplete tasks</label>
-        <input type="checkbox" name="incomplete" id="incomplete">
+    <div class="filter flex flex-col">
+        <div><label for="completed">Show only completed tasks</label>
+        <input bind:checked={f_done} type="checkbox" name="completed" id="completed"></div>
+        <div><label for="incomplete">Show only incomplete tasks</label>
+        <input bind:checked={f_pending} type="checkbox" name="incomplete" id="incomplete"></div>
     </div>
     {/if}
     <div class="tasks flex flex-col gap-3">
         {#each tasks as task,i}
-            <div class="task flex flex-row gap-2 {task.iscomplete? 'bg-zinc-400':"bg-blue-600"} text-white p-3 items-center rounded-sm w-80 justify-between">
-            <p>{task.name}</p>
-            <div class="ops">
-                {#if !task.iscomplete}
-                    <button class="p-1 aspect-square h-8 rounded-md bg-green-500 hover:bg-green-600" onclick={()=>{task.iscomplete=true}}>✓</button>
-                {/if}
-                <button class="p-1 aspect-square h-8 rounded-md bg-red-500 hover:bg-red-600" onclick={()=>{tasks.splice(i,1)}}>x</button>
-            </div>
-        </div>
+        {#if !f_done && !f_pending} 
+        {@render smth(task,tasks,i)}
+        {/if}
+        {#if f_done && !f_pending}
+            {#if task.iscomplete}
+                {@render smth(task,tasks,i)}
+            {/if}
+        {/if}
+        {#if !f_done && f_pending}
+            {#if !task.iscomplete}
+                {@render smth(task,tasks,i)}
+            {/if}
+        {/if}
         {/each}
+        
     </div>
 </main>
+
+{#snippet smth(arg,args,i)}
+    <div class="task flex flex-row gap-2 {arg.iscomplete? 'bg-zinc-400':"bg-blue-600"} text-white p-3 items-center rounded-sm w-80 justify-between">
+            <p>{arg.name}</p>
+            <div class="ops">
+                {#if !arg.iscomplete}
+                    <button class="p-1 aspect-square h-8 rounded-md bg-green-500 hover:bg-green-600" onclick={()=>{arg.iscomplete=true}}>✓</button>
+                {/if}
+                <button class="p-1 aspect-square h-8 rounded-md bg-red-500 hover:bg-red-600" onclick={()=>{args.splice(i,1)}}>x</button>
+            </div>
+        </div>
+{/snippet}
