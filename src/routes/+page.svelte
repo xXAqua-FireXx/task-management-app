@@ -28,9 +28,9 @@
     {#if tasks.length}
     <div class="filter flex flex-col">
         <div><label for="completed">Show only completed tasks</label>
-        <input bind:checked={f_done} type="checkbox" name="completed" id="completed"></div>
+        <input bind:checked={f_done} onchange={()=>{f_pending = false}} type="checkbox" name="completed" id="completed"></div>
         <div><label for="incomplete">Show only incomplete tasks</label>
-        <input bind:checked={f_pending} type="checkbox" name="incomplete" id="incomplete"></div>
+        <input bind:checked={f_pending} onchange={()=>{f_done = false}} type="checkbox" name="incomplete" id="incomplete"></div>
     </div>
     {/if}
     <div class="tasks flex flex-col gap-3">
