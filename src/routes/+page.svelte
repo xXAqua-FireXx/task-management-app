@@ -4,9 +4,26 @@
     let newTask = $state("");
     let f_done = $state(false)
     let f_pending = $state(false)
+    let isnavopen = $state(false)
+    if(data.toLoad){
+        console.log(data.toLoad)
+        data.toLoad.map(name=>{tasks.push({name,iscomplete:false})})
+    }
 </script>
-
-<main class="flex flex-col gap-10 items-center p-5">
+<main class="flex">
+    {#if data.names.length}
+    <section class="flex-1/4 flex flex-col  gap-3 p-2">
+        <h1 class="text-xl ">Load your task lists</h1>
+        
+        {#each data.names as name}
+            <form action="?/load" method="post">
+                <input type="hidden" id="name" name="name" value={name}>
+                <button class="bg-zinc-600 w-full rounded-md p-2 hover:bg-zinc-700 text-white">{name}</button>
+            </form>
+        {/each}
+    </section>
+    {/if}
+<section class="flex flex-3/4 flex-col gap-10 items-center p-5">
     <h1 class="text-3xl bold">Yout task management app!</h1>
     <div class="adder p-3 flex flex-col rounded-2xl bg-zinc-500 text-white gap-4 items-center">
         <h2 class="text-xl">Add your tasks</h2>
@@ -55,14 +72,14 @@
 {#if tasks.length}
     <form action="?/save" method="post">
         <input type="hidden" name="tasks" id="tasks" value={JSON.stringify(tasks)}>
-        <input type="text" name="session-name" id="session-name" placeholder="Session name" required>
+        <input class="bg-transparent" type="text" name="session-name" id="session-name" placeholder="Session name" required>
         <button class="p-3 rounded-xl bg-black text-white hover:bg-zinc-900 cursor-pointer">Save your tasks</button>
     </form>
 {/if}
     
 
+</section>
 </main>
-
 
 
 
@@ -78,3 +95,20 @@
             </div>
         </div>
 {/snippet}
+
+
+
+<style>
+    :root {
+    --bg-light: #f9fafb;
+    --bg-dark: #18181b;
+    background: var(--bg-light);
+    color: #18181b;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        background: var(--bg-dark);
+        color: #f9fafb;
+    }
+}
+</style>
