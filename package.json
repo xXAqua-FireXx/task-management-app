@@ -28,8 +28,10 @@
 		"vite": "^7.0.4"
 	},
 	"dependencies": {
+		"@neondatabase/serverless": "^1.0.1",
 		"better-sqlite3": "^11.8.0",
 		"drizzle-orm": "^0.40.0",
+		"neon": "^2.0.0",
 		"netlify": "^23.1.3"
 	}
 }

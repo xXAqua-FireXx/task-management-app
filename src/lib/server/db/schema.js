@@ -1,6 +1,7 @@
-import { sqliteTable, integer } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, serial } from 'drizzle-orm/pg-core';
 
-export const user = sqliteTable('user', {
-	id: integer('id').primaryKey(),
-	age: integer('age')
+export const task = pgTable('task', {
+    id: serial('id').primaryKey(), // auto-incrementing primary key for Postgres
+	name: text('name'),
+    tasks: text('tasks').array()
 });

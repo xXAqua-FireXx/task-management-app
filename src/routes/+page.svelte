@@ -1,4 +1,5 @@
 <script>
+    let {data} = $props()
     let tasks = $state([]);
     let newTask = $state("");
     let f_done = $state(false)
@@ -51,7 +52,20 @@
         {/each}
         
     </div>
+{#if tasks.length}
+    <form action="?/save" method="post">
+        <input type="hidden" name="tasks" id="tasks" value={JSON.stringify(tasks)}>
+        <input type="text" name="session-name" id="session-name" placeholder="Session name" required>
+        <button class="p-3 rounded-xl bg-black text-white hover:bg-zinc-900 cursor-pointer">Save your tasks</button>
+    </form>
+{/if}
+    
+
 </main>
+
+
+
+
 
 {#snippet smth(arg,args,i)}
     <div class="task flex flex-row gap-2 {arg.iscomplete? 'bg-zinc-400':"bg-blue-600"} text-white p-3 items-center rounded-sm w-80 justify-between">
